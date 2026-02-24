@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="auto" data-font="md" data-width="normal">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blank Space — Wikipédia (clone moderno)</title>
+  <meta name="description" content="Clone moderno (um arquivo) de um artigo estilo Wikipédia: Blank Space — Taylor Swift." />
+  <style>
+    /* ====== Design tokens ====== */
+    :root{
+      --bg: #ffffff;
+      --fg: #111827;
+      --muted: #6b7280;
+      --card: #f8fafc;
+      --border: #e5e7eb;
+      --accent: #2563eb;
+      --accent-2: #7c3aed;
+      --warn-bg: #fff7ed;
+      --warn-fg: #9a3412;
+      --ok-bg: #eff6ff;
+      --ok-fg: #1d4ed8;
+      --shadow: 0 8px 24px rgba(0,0,0,.08);
+
+      --radius: 14px;
+      --space-1: .5rem;
+      --space-2: .75rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2rem;
+
+      --font-size: 16px;
+      --measure: 72ch;
+    }
+
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg: #0b1020;
+        --fg: #e5e7eb;
+        --muted: #a1a1aa;
+        --card: #101a33;
+        --border: #24324f;
+        --accent: #60a5fa;
+        --accent-2: #a78bfa;
+        --warn-bg: #2a1b10;
+        --warn-fg: #fdba74;
+        --ok-bg: #0b1e3a;
+        --ok-fg: #93c5fd;
+        --shadow: 0 10px 30px rgba(0,0,0,.35);
+      }
+    }
+
+    html[data-theme="light"]{
+      --bg: #ffffff;
+      --fg: #111827;
+      --muted: #6b7280;
+      --card: #f8fafc;
+      --border: #e5e7eb;
+      --accent: #2563eb;
+      --accent-2: #7c3aed;
+      --warn-bg: #fff7ed;
+      --warn-fg: #9a3412;
+      --ok-bg: #eff6ff;
+      --ok-fg: #1d4ed8;
+      --shadow: 0 8px 24px rgba(0,0,0,.08);
+    }
+    html[data-theme="dark"]{
+      --bg: #0b1020;
+      --fg: #e5e7eb;
+      --muted: #a1a1aa;
+      --card: #101a33;
+      --border: #24324f;
+      --accent: #60a5fa;
+      --accent-2: #a78bfa;
+      --warn-bg: #2a1b10;
+      --warn-fg: #fdba74;
+      --ok-bg: #0b1e3a;
+      --ok-fg: #93c5fd;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    html[data-font="sm"]{ --font-size: 15px; }
+    html[data-font="md"]{ --font-size: 16px; }
+    html[data-font="lg"]{ --font-size: 18px; }
+    html[data-width="normal"]{ --measure: 72ch; }
+    html[data-width="wide"]{ --measure: 96ch; }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", Arial, "Apple Color Emoji","Segoe UI Emoji";
+      font-size: var(--font-size);
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    a{ color: var(--accent); text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+    :focus-visible{
+      outline: 3px solid color-mix(in srgb, var(--accent) 75%, transparent);
+      outline-offset: 2px;
+      border-radius: 10px;
+    }
+
+    /* Skip link */
+    .skip{
+      position:absolute;
+      left:-9999px;
+      top:auto;
+      width:1px;height:1px;
+      overflow:hidden;
+    }
+    .skip:focus{
+      left: var(--space-3);
+      top: var(--space-3);
+      width:auto;height:auto;
+      padding: .6rem .8rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      z-index: 9999;
+    }
+
+    /* Layout */
+    .shell{
+      display:grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: var(--space-4);
+      padding: var(--space-4);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    @media (max-width: 980px){
+      .shell{ grid-template-columns: 1fr; }
+      .sidebar{ position: static; }
+    }
+
+    header.topbar{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+      background: color-mix(in srgb, var(--bg) 80%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: var(--space-3);
+      padding: var(--space-2) var(--space-4);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: .65rem;
+      min-width: 220px;
+    }
+    .brand-badge{
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: var(--shadow);
+    }
+    .brand strong{ display:block; line-height:1.1; }
+    .brand small{ color: var(--muted); display:block; margin-top: 2px; }
+
+    .tabs{
+      display:flex;
+      gap: .25rem;
+      flex-wrap: wrap;
+      align-items:center;
+      justify-content: center;
+    }
+    .tab{
+      padding: .45rem .7rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      background: transparent;
+      cursor:pointer;
+      font: inherit;
+    }
+    .tab[aria-selected="true"]{
+      color: var(--fg);
+      background: var(--card);
+      border-color: var(--border);
+    }
+
+    .toolbar{
+      display:flex;
+      gap: .5rem;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .iconbtn{
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--fg);
+      padding: .5rem .65rem;
+      border-radius: 12px;
+      cursor:pointer;
+      box-shadow: none;
+    }
+    .iconbtn:hover{ box-shadow: var(--shadow); }
+    .iconbtn[aria-pressed="true"]{ border-color: color-mix(in srgb, var(--accent) 35%, var(--border)); }
+
+    /* Sidebar */
+    .sidebar{
+      position: sticky;
+      top: 74px;
+      align-self: start;
+    }
+    .panel{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: none;
+      padding: var(--space-3);
+    }
+    .panel + .panel{ margin-top: var(--space-3); }
+    .panel h2{
+      margin: 0 0 .5rem 0;
+      font-size: 1rem;
+    }
+    .control-row{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: .5rem;
+      margin-top: .5rem;
+    }
+    .seg{
+      display:flex;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow:hidden;
+    }
+    .seg button{
+      flex:1;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: .55rem .6rem;
+      cursor:pointer;
+      font: inherit;
+    }
+    .seg button[aria-pressed="true"]{
+      background: color-mix(in srgb, var(--accent) 12%, var(--card));
+      color: var(--fg);
+    }
+    .hint{ color: var(--muted); font-size: .9rem; margin: .35rem 0 0; }
+
+    /* Main */
+    main{
+      min-width: 0;
+    }
+    .content{
+      max-width: var(--measure);
+    }
+    .badges{
+      display:flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin: 0 0 var(--space-3) 0;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding: .4rem .6rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      font-size: .9rem;
+      color: var(--muted);
+    }
+    .badge--featured{
+      background: var(--ok-bg);
+      color: var(--ok-fg);
+      border-color: color-mix(in srgb, var(--ok-fg) 20%, var(--border));
+    }
+    .badge--protected{
+      background: var(--warn-bg);
+      color: var(--warn-fg);
+      border-color: color-mix(in srgb, var(--warn-fg) 20%, var(--border));
+    }
+
+    h1{
+      margin: 0 0 .35rem 0;
+      font-size: clamp(1.8rem, 3vw, 2.25rem);
+      line-height: 1.2;
+      letter-spacing: -.02em;
+    }
+    .subtitle{
+      margin: 0 0 var(--space-3) 0;
+      color: var(--muted);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: var(--space-4);
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    /* Infobox */
+    .infobox{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-3);
+      box-shadow: none;
+    }
+    .infobox h2{
+      margin: 0 0 .25rem 0;
+      font-size: 1.05rem;
+    }
+    .infobox .meta{
+      color: var(--muted);
+      font-size: .92rem;
+      margin: 0 0 var(--space-2) 0;
+    }
+    .infobox table{
+      width:100%;
+      border-collapse: collapse;
+      font-size: .95rem;
+    }
+    .infobox th, .infobox td{
+      padding: .5rem .35rem;
+      vertical-align: top;
+      border-top: 1px solid var(--border);
+    }
+    .infobox th{
+      text-align:left;
+      width: 42%;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .infobox .split{
+      display:flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin-top: .75rem;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    .infobox .linkbtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: .55rem .7rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--accent) 10%, var(--card));
+      color: var(--fg);
+      font-weight: 600;
+    }
+
+    /* TOC */
+    details.toc{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-2) var(--space-3);
+      margin: 0 0 var(--space-4) 0;
+    }
+    details.toc > summary{
+      cursor:pointer;
+      list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: .75rem;
+      padding: .35rem 0;
+      font-weight: 700;
+    }
+    details.toc > summary::-webkit-details-marker{ display:none; }
+    .toc ol{
+      margin: .5rem 0 .25rem;
+      padding-left: 1.2rem;
+    }
+    .toc li{ margin: .25rem 0; }
+    .toc a{ color: var(--fg); }
+    .toc a span{ color: var(--muted); font-variant-numeric: tabular-nums; margin-right: .35rem; }
+
+    /* Sections */
+    section{
+      margin: 0 0 var(--space-5) 0;
+    }
+    section h2{
+      margin: 0 0 var(--space-2) 0;
+      font-size: 1.25rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: .35rem;
+    }
+    p{ margin: 0 0 var(--space-2) 0; }
+    .note{
+      color: var(--muted);
+      font-size: .95rem;
+      border-left: 3px solid var(--border);
+      padding-left: .75rem;
+    }
+
+    /* Footer */
+    footer{
+      margin-top: var(--space-5);
+      padding: var(--space-4);
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      max-width: 1400px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    /* Visually hidden utility */
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#conteudo">Pular para o conteúdo principal</a>
+
+  <header class="topbar" role="banner">
+    <div class="topbar-inner">
+      <div class="brand" aria-label="Identidade do site">
+        <div class="brand-badge" aria-hidden="true"></div>
+        <div>
+          <strong>Wikipédia — clone moderno</strong>
+          <small>Um arquivo HTML • acessível • responsivo</small>
+        </div>
+      </div>
+
+      <!-- Tabs (Artigo/Discussão etc.) -->
+      <nav class="tabs" aria-label="Navegação do artigo">
+        <button class="tab" type="button" aria-selected="true">Artigo</button>
+        <button class="tab" type="button" aria-selected="false">Discussão</button>
+        <button class="tab" type="button" aria-selected="false">Ler</button>
+        <button class="tab" type="button" aria-selected="false">Ver código fonte</button>
+        <button class="tab" type="button" aria-selected="false">Ver histórico</button>
+      </nav>
+
+      <!-- Quick actions -->
+      <div class="toolbar" aria-label="Ferramentas rápidas">
+        <button id="btnFocus" class="iconbtn" type="button" aria-pressed="false" title="Modo foco (esconde a barra lateral)">
+          Modo foco
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar" aria-label="Ferramentas e aparência">
+      <div class="panel" role="region" aria-labelledby="toolsTitle">
+        <h2 id="toolsTitle">Ferramentas</h2>
+        <p class="hint">Aparência <span aria-hidden="true">•</span> ocultar/mostrar</p>
+      </div>
+
+      <div class="panel" role="region" aria-labelledby="appearanceTitle">
+        <h2 id="appearanceTitle">Aparência</h2>
+
+        <div class="control-row" aria-label="Texto">
+          <div>
+            <div class="hint" id="txtLabel">Texto</div>
+            <div class="seg" role="group" aria-labelledby="txtLabel">
+              <button type="button" data-font="sm" aria-pressed="false">Pequeno</button>
+              <button type="button" data-font="md" aria-pressed="true">Padrão</button>
+              <button type="button" data-font="lg" aria-pressed="false">Grande</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-row" aria-label="Largura">
+          <div>
+            <div class="hint" id="widthLabel">Largura</div>
+            <div class="seg" role="group" aria-labelledby="widthLabel">
+              <button type="button" data-width="normal" aria-pressed="true">Padrão</button>
+              <button type="button" data-width="wide" aria-pressed="false">Largo</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-row" aria-label="Cor">
+          <div>
+            <div class="hint" id="themeLabel">Cor (beta)</div>
+            <div class="seg" role="group" aria-labelledby="themeLabel">
+              <button type="button" data-theme="auto" aria-pressed="true">Automático</button>
+              <button type="button" data-theme="light" aria-pressed="false">Claro</button>
+              <button type="button" data-theme="dark" aria-pressed="false">Escuro</button>
+            </div>
+          </div>
+          <p class="hint">Respeita “prefers-color-scheme” quando em Automático.</p>
+        </div>
+      </div>
+    </aside>
+
+    <main id="conteudo" role="main">
+      <div class="content">
+        <div class="badges" aria-label="Avisos do artigo">
+          <span class="badge badge--featured">Este é um artigo destacado. <a href="#sobre">Clique aqui para mais informações.</a></span>
+          <span class="badge badge--protected">Página semiprotegida</span>
+        </div>
+
+        <h1>"Blank Space"</h1>
+        <p class="subtitle">Single de Taylor Swift • do álbum <em>1989</em></p>
+
+        <div class="grid">
+          <article aria-label="Conteúdo do artigo">
+            <details class="toc" open>
+              <summary>
+                Sumário
+                <span aria-hidden="true">▾</span>
+              </summary>
+              <ol>
+                <li><a href="#introducao"><span>1</span>Introdução</a></li>
+                <li><a href="#antecedentes"><span>2</span>Antecedentes e desenvolvimento</a></li>
+                <li><a href="#estrutura"><span>3</span>Estrutura musical</a></li>
+                <li><a href="#lancamento"><span>4</span>Lançamento</a></li>
+              </ol>
+            </details>
+
+            <section id="introducao" aria-labelledby="h-intro">
+              <h2 id="h-intro">Introdução</h2>
+              <p><strong>"Blank Space"</strong> é uma canção da artista musical estadunidense <strong>Taylor Swift</strong> para o seu quinto álbum de estúdio, <em>1989</em>. Foi composta por Swift com <strong>Max Martin</strong> e <strong>Shellback</strong>, e produzida por Martin e Shellback.</p>
+              <p>Foi lançada oficialmente como o <strong>segundo single</strong> do álbum em <strong>10 de novembro de 2014</strong> (Big Machine, com promoção pela Republic). A gravação ocorreu em 2014 nos <strong>MXM Studios</strong> (Estocolmo) e nos <strong>Conway Recording Studios</strong> (Los Angeles).</p>
+              <p>Musicalmente, é uma faixa <strong>electropop</strong> de andamento moderado (<strong>96 bpm</strong>). A letra satiriza a percepção da mídia sobre os relacionamentos de Swift, alternando uma persona glamourosa com um lado possessivo e vingativo, em tom de humor.</p>
+              <p class="note">Resumo: o texto completo na Wikipédia é mais longo; aqui o conteúdo foi condensado mantendo os pontos principais e as informações solicitadas.</p>
+            </section>
+
+            <section id="antecedentes" aria-labelledby="h-ant">
+              <h2 id="h-ant">Antecedentes e desenvolvimento</h2>
+              <p>Entre 2013 e 2014, Swift avançou na composição de <em>1989</em>, inspirando-se no pop dos anos 1980 e aprofundando a guinada para a música pop. Nesse período, ela comentou o incômodo com a imagem de “namoradora em série” na mídia e passou a escrever canções satíricas sobre o tema.</p>
+              <p>Segundo entrevistas da época, "Blank Space" nasceu desse processo: anotações e respostas bem-humoradas sobre críticas públicas foram usadas como material para compor versos que ironizam a narrativa tabloide.</p>
+              <p class="note">Créditos de estúdio (resumo): gravação coordenada em Estocolmo e Los Angeles; mixagem por Serban Ghenea; masterização por Tom Coyne.</p>
+            </section>
+
+            <section id="estrutura" aria-labelledby="h-est">
+              <h2 id="h-est">Estrutura musical</h2>
+              <p>Com duração de <strong>3:51</strong>, a canção usa produção relativamente “enxuta” para destacar letra e voz: sintetizadores, percussão, teclados, guitarra acústica, baixo e programação. A estrutura é verso–refrão, com crescimento de energia no refrão e elementos rítmicos influenciados pelo hip hop de forma sutil.</p>
+              <p>A letra contrasta sedução e ameaça (“espaço em branco” para escrever o nome), reforçando a sátira sobre o estereótipo midiático de “ex-namorada maluca”.</p>
+            </section>
+
+            <section id="lancamento" aria-labelledby="h-lan">
+              <h2 id="h-lan">Lançamento</h2>
+              <p>Após “Shake It Off”, as gravadoras confirmaram "Blank Space" como o segundo foco promocional e enviaram a música para rádios em <strong>10 de novembro de 2014</strong>, expandindo no dia seguinte para emissoras mainstream. Também houve comercialização em formatos físico e digital em alguns mercados.</p>
+              <p>Em 2023, após disputa sobre masters, foi lançada a regravação <strong>"Blank Space (Taylor’s Version)"</strong>, como parte de <em>1989 (Taylor’s Version)</em> (27 de outubro de 2023), com novos créditos técnicos e produção associada ao projeto de regravações.</p>
+            </section>
+
+            <section id="sobre" aria-labelledby="h-sobre">
+              <h2 id="h-sobre">Sobre este clone</h2>
+              <p>Este arquivo reproduz a “cara” de uma página da Wikipédia com uma camada moderna: layout responsivo, controles de aparência com persistência local, e landmarks/atalhos para acessibilidade (skip link, navegação, regiões e foco visível).</p>
+            </section>
+          </article>
+
+          <aside class="infobox" aria-label="Informações rápidas (infobox)">
+            <h2>"Blank Space"</h2>
+            <p class="meta">Single de Taylor Swift • do álbum <em>1989</em></p>
+
+            <table aria-label="Tabela de informações do single">
+              <tbody>
+                <tr><th scope="row">Lançamento</th><td>10 de novembro de 2014</td></tr>
+                <tr><th scope="row">Formato(s)</th><td>CD single · download digital</td></tr>
+                <tr><th scope="row">Estúdio(s)</th>
+                  <td>
+                    MXM Studios (Estocolmo, Suécia)<br/>
+                    Conway Recording Studios (Los Angeles, Estados Unidos)
+                  </td>
+                </tr>
+                <tr><th scope="row">Gênero(s)</th><td>Electropop</td></tr>
+                <tr><th scope="row">Duração</th><td>3:51</td></tr>
+                <tr><th scope="row">Gravadora(s)</th><td>Big Machine · Republic</td></tr>
+                <tr><th scope="row">Composição</th><td>Taylor Swift · Max Martin · Shellback</td></tr>
+                <tr><th scope="row">Produção</th><td>Max Martin · Shellback</td></tr>
+                <tr><th scope="row">Cronologia de singles</th>
+                  <td>
+                    “Shake It Off” (2014)<br/>
+                    <strong>“Blank Space”</strong><br/>
+                    “Style” (2015)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="split" aria-label="Links relacionados">
+              <a class="linkbtn" href="https://www.youtube.com/results?search_query=Blank+Space+Taylor+Swift" target="_blank" rel="noopener">
+                Vídeo musical: "Blank Space" no YouTube
+              </a>
+            </div>
+
+            <p class="hint" style="margin-top:.9rem">
+              A infobox é baseada nas informações fornecidas na conversa.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer role="contentinfo">
+    <div style="max-width: 1400px; margin: 0 auto;">
+      <p><strong>Acessibilidade:</strong> use Tab/Shift+Tab para navegar; o botão “Modo foco” remove a barra lateral; controles de aparência possuem estado e rótulos ARIA.</p>
+      <p>Conteúdo resumido e reformatado para demonstração de UI. “Wikipédia” é marca de terceiros; este arquivo é apenas um clone visual/funcional para estudo.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const root = document.documentElement;
+
+      // ====== helpers ======
+      const $all = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+      const save = (k,v) => localStorage.setItem(k, v);
+      const load = (k) => localStorage.getItem(k);
+
+      // ====== restore preferences ======
+      const prefTheme = load("pref_theme") || "auto";
+      const prefFont  = load("pref_font")  || "md";
+      const prefWidth = load("pref_width") || "normal";
+      root.dataset.theme = prefTheme;
+      root.dataset.font  = prefFont;
+      root.dataset.width = prefWidth;
+
+      // ====== apply pressed states ======
+      function syncPressed(){
+        $all("[data-theme]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.theme === root.dataset.theme)));
+        $all("[data-font]").forEach(b  => b.setAttribute("aria-pressed", String(b.dataset.font  === root.dataset.font)));
+        $all("[data-width]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.width === root.dataset.width)));
+      }
+      syncPressed();
+
+      // ====== bind segmented controls ======
+      $all("[data-theme]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          root.dataset.theme = btn.dataset.theme;
+          save("pref_theme", root.dataset.theme);
+          syncPressed();
+        });
+      });
+
+      $all("[data-font]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          root.dataset.font = btn.dataset.font;
+          save("pref_font", root.dataset.font);
+          syncPressed();
+        });
+      });
+
+      $all("[data-width]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          root.dataset.width = btn.dataset.width;
+          save("pref_width", root.dataset.width);
+          syncPressed();
+        });
+      });
+
+      // ====== Focus mode (hide sidebar) ======
+      const btnFocus = document.getElementById("btnFocus");
+      const sidebar = document.querySelector(".sidebar");
+      const shell = document.querySelector(".shell");
+
+      function setFocusMode(on){
+        btnFocus.setAttribute("aria-pressed", String(on));
+        if(on){
+          sidebar.style.display = "none";
+          shell.style.gridTemplateColumns = "1fr";
+          save("pref_focus", "1");
+        }else{
+          sidebar.style.display = "";
+          shell.style.gridTemplateColumns = "";
+          save("pref_focus", "0");
+        }
+      }
+      setFocusMode(load("pref_focus") === "1");
+
+      btnFocus.addEventListener("click", ()=>{
+        const on = btnFocus.getAttribute("aria-pressed") !== "true";
+        setFocusMode(on);
+      });
+
+      // ====== Tabs: purely visual (demo) ======
+      const tabs = $all(".tab");
+      tabs.forEach(t=>{
+        t.addEventListener("click", ()=>{
+          tabs.forEach(x=>x.setAttribute("aria-selected","false"));
+          t.setAttribute("aria-selected","true");
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
